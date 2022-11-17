@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApi2.Models;
+using ConectaBD;
 
 namespace WebApi2.DAL
 {
@@ -16,6 +17,9 @@ namespace WebApi2.DAL
         {
             int resp = 0;
 
+            Conecta conecta = new Conecta();
+
+            
             
 
             return resp;
