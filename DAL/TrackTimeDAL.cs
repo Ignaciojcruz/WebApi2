@@ -73,15 +73,18 @@ namespace WebApi2.DAL
         }
 
         //eliminar datos
-        public int Delete_TrackTime(TrackTime trackTime)
+        public int Delete_TrackTime(int id)
         {
             int resp = 0;
             string accion = "A3";
             string outError = "";
+            TrackTime tracktime = new TrackTime();
+                        
+            tracktime.Id = id;
 
             try
             {
-                DataSet ds = retornaDs(trackTime, accion, ref outError);
+                DataSet ds = retornaDs(tracktime, accion, ref outError);
 
                 if (outError.Length > 0) throw new Exception(outError);
                 if (ds.Tables[0].Rows.Count > 0) resp = Convert.ToInt32(ds.Tables[0].Rows[0]["resultado"]);
@@ -113,7 +116,7 @@ namespace WebApi2.DAL
                 cmd.Parameters.Add("@IdCar", SqlDbType.Int).Value = trackTime.IdCar;
                 cmd.Parameters.Add("@BestTimeLap", SqlDbType.Time).Value = trackTime.BestTimeLap;
                 
-                ds = conecta.GetDataSet(connection, cmd);
+                ds = conecta.GetDataSet(connection, cmd, ref outError);
             }
             catch (Exception ex)
             {

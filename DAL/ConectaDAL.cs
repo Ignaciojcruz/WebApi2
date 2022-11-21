@@ -9,7 +9,7 @@ namespace WebApi2.DAL
 {
     public class ConectaDAL
     {
-        public DataSet GetDataSet(SqlConnection conn, SqlCommand cmd)
+        public DataSet GetDataSet(SqlConnection conn, SqlCommand cmd, ref string outError)
         {
             DataSet ds = new DataSet();
 
@@ -31,7 +31,12 @@ namespace WebApi2.DAL
             }
             catch (Exception ex)
             {
-
+                outError = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
             }
 
             return ds;

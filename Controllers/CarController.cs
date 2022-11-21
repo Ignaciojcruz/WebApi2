@@ -13,6 +13,7 @@ namespace WebApi2.Controllers
     public class CarController : ApiController
     {
         // GET: api/Car
+        [HttpGet]
         public HttpResponseMessage Get()
         {                                                
             Car car = new Car();
@@ -23,24 +24,45 @@ namespace WebApi2.Controllers
         }
 
         // GET: api/Car/5
-        public string Get(int id)
+        
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            Car car = new Car();
+            car.Id = id;
+
+            return Request.CreateResponse(HttpStatusCode.OK, car.Get_Car());
         }
 
         // POST: api/Car
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(Car car)
         {
+            Car car1 = new Car();
+            int resp = car1.Set_Car(car);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+                        
         }
 
         // PUT: api/Car/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(Car car)
         {
+            Car car1 = new Car();
+            int resp = car1.Set_Car(car);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // DELETE: api/Car/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/Car/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
+            Car car = new Car();
+            car.Id = id;
+
+            int resp = car.Delete_Car(id);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

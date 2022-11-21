@@ -4,36 +4,62 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApi2.Models;
 
 namespace WebApi2.Controllers
 {
     public class TrackController : ApiController
     {
         // GET: api/Track
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public HttpResponseMessage Get()
         {
-            return new string[] { "value1", "value2" };
+            Track track = new Track();
+            track.Id = 0;
+
+            return Request.CreateResponse(HttpStatusCode.OK, track.Get_Track());
+
         }
 
         // GET: api/Track/5
-        public string Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            Track track = new Track();
+            track.Id = id;
+
+            return Request.CreateResponse(HttpStatusCode.OK, track.Get_Track());
         }
 
         // POST: api/Track
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(Track track)
         {
+            Track track1 = new Track();
+            int resp = track1.Set_Track(track);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+
         }
 
         // PUT: api/Track/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(Track track)
         {
+            Track track1 = new Track();
+            int resp = track1.Set_Track(track);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // DELETE: api/Track/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/Track/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
+            Track track = new Track();
+            track.Id = id;
+
+            int resp = track.Delete_Track(id);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

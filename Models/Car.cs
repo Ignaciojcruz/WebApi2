@@ -20,5 +20,17 @@ namespace WebApi2.Models
             CarDAL carDAL = new CarDAL();
             return carDAL.Get_Car(this);
         }
+
+        public int Set_Car(Car car)
+        {
+            CarDAL carDAL = new CarDAL();
+            return carDAL.Set_Car(car); 
+        }
+
+        public int Delete_Car(int id)
+        {
+            CarDAL carDAL = new CarDAL();
+            return carDAL.Delete_Car(id);
+        }
     }
 }

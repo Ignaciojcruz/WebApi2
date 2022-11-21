@@ -4,36 +4,63 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApi2.Models;
 
 namespace WebApi2.Controllers
 {
     public class TrackTimeController : ApiController
     {
         // GET: api/TrackTime
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public HttpResponseMessage Get()
         {
-            return new string[] { "value1", "value2" };
+            TrackTime trackTime = new TrackTime();
+            trackTime.Id = 0;
+
+            return Request.CreateResponse(HttpStatusCode.OK, trackTime.Get_TrackTime());
+
         }
 
         // GET: api/TrackTime/5
-        public string Get(int id)
+
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            TrackTime trackTime = new TrackTime();
+            trackTime.Id = id;
+
+            return Request.CreateResponse(HttpStatusCode.OK, trackTime.Get_TrackTime());
         }
 
         // POST: api/TrackTime
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(TrackTime trackTime)
         {
+            TrackTime trackTime1 = new TrackTime();
+            int resp = trackTime1.Set_TrackTime(trackTime);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+
         }
 
         // PUT: api/TrackTime/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(TrackTime trackTime)
         {
+            TrackTime trackTime1 = new TrackTime();
+            int resp = trackTime1.Set_TrackTime(trackTime);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // DELETE: api/TrackTime/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/TrackTime/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
+            TrackTime trackTime = new TrackTime();
+            trackTime.Id = id;
+
+            int resp = trackTime.Delete_TrackTime(id);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

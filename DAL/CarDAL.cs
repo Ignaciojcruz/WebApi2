@@ -61,6 +61,7 @@ namespace WebApi2.DAL
                         car2.Brand = row["Brand"].ToString();
                         car2.Model = row["Model"].ToString();
                         car2.Year = Convert.ToInt32(row["Year"]);
+                        car2.Type = row["Type"].ToString();
                         car2.IsDeleted = Convert.ToBoolean(row["isDeleted"]);
                         list.Add(car2);
                     }
@@ -78,11 +79,15 @@ namespace WebApi2.DAL
         }
                        
         //eliminar datos
-        public int Delete_Car(Car car)
+        public int Delete_Car(int Id)
         {
             int resp = 0;
+
             string accion = "A3";
             string outError = "";
+
+            Car car = new Car();
+            car.Id = Id;
 
             try
             {
@@ -119,7 +124,7 @@ namespace WebApi2.DAL
                 cmd.Parameters.Add("@Year", SqlDbType.Int).Value = car.Year;
                 cmd.Parameters.Add("@Type", SqlDbType.VarChar).Value = car.Type;
 
-                ds = conecta.GetDataSet(connection, cmd);
+                ds = conecta.GetDataSet(connection, cmd, ref outError);
             }
             catch (Exception ex)
             {

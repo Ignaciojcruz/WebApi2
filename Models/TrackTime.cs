@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApi2.DAL;
 
 namespace WebApi2.Models
 {
@@ -13,5 +14,22 @@ namespace WebApi2.Models
         public TimeSpan BestTimeLap { get; set; }
         public bool IsDeleted { get; set; }
 
+        public List<TrackTime> Get_TrackTime()
+        {
+            TrackTimeDAL trackTimeDAL = new TrackTimeDAL();
+            return trackTimeDAL.Get_TrackTime(this);
+        }
+
+        public int Set_TrackTime(TrackTime trackTime)
+        {
+            TrackTimeDAL trackTimeDAL = new TrackTimeDAL();
+            return trackTimeDAL.Set_TrackTime(trackTime);
+        }
+
+        public int Delete_TrackTime(int id)
+        {
+            TrackTimeDAL trackTimeDAL = new TrackTimeDAL();
+            return trackTimeDAL.Delete_TrackTime(id);
+        }
     }
 }

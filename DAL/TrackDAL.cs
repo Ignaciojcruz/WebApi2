@@ -73,11 +73,13 @@ namespace WebApi2.DAL
         }
 
         //eliminar datos
-        public int Delete_Track(Track track)
+        public int Delete_Track(int id)
         {
             int resp = 0;
             string accion = "A3";
             string outError = "";
+            Track track = new Track();
+            track.Id = id;
 
             try
             {
@@ -112,7 +114,7 @@ namespace WebApi2.DAL
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = track.Name;                
                 cmd.Parameters.Add("@Length", SqlDbType.Int).Value = track.Length;
                 
-                ds = conecta.GetDataSet(connection, cmd);
+                ds = conecta.GetDataSet(connection, cmd, ref outError);
             }
             catch (Exception ex)
             {
