@@ -24,21 +24,31 @@ namespace WebApi2.Controllers
         }
 
         // GET: api/Car/5
-        
+        [HttpGet]
         public HttpResponseMessage Get(int id)
         {
             Car car = new Car();
-            car.Id = id;
-
-            return Request.CreateResponse(HttpStatusCode.OK, car.Get_Car());
+            
+            return Request.CreateResponse(HttpStatusCode.OK, car.Get_Car(id));
         }
 
         // POST: api/Car
         public HttpResponseMessage Post(Car car)
         {
             Car car1 = new Car();
-            int resp = car1.Set_Car(car);
+            int resp = 0;
 
+            if(car.IsDeleted == true)
+            {
+                //eliminar
+                resp = car1.Delete_Car(car.Id);
+            }
+            else
+            {
+                //ingresar-actualizar
+                resp = car1.Set_Car(car);
+            }
+                        
             return new HttpResponseMessage(HttpStatusCode.OK);
                         
         }
@@ -51,18 +61,6 @@ namespace WebApi2.Controllers
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
-
-        // DELETE: api/Car/5
-        [HttpDelete]
-        [Route("api/Car/{id}")]
-        public HttpResponseMessage Delete(int id)
-        {
-            Car car = new Car();
-            car.Id = id;
-
-            int resp = car.Delete_Car(id);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
+                
     }
 }

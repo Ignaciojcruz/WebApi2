@@ -77,7 +77,39 @@ namespace WebApi2.DAL
 
             return list;
         }
-                       
+
+        public Car Get_Car(int id)
+        {
+            Car car = new Car();
+            Car car2 = new Car();
+            car.Id = id;
+            string accion = "A2";
+            string outError = "";
+
+            try
+            {
+                DataSet ds = retornaDs(car, accion, ref outError);
+
+                if (outError.Length > 0) throw new Exception(outError);
+                if (ds.Tables.Count > 0)
+                {                    
+                    
+                    car2.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
+                    car2.Brand = ds.Tables[0].Rows[0]["Brand"].ToString();
+                    car2.Model = ds.Tables[0].Rows[0]["Model"].ToString();
+                    car2.Year = Convert.ToInt32(ds.Tables[0].Rows[0]["Year"]);
+                    car2.Type = ds.Tables[0].Rows[0]["Type"].ToString();
+                    car2.IsDeleted = Convert.ToBoolean(ds.Tables[0].Rows[0]["isDeleted"]);                                            
+                }
+            }
+            catch (Exception ex)
+            {
+                outError = ex.Message;
+            }
+
+            return car2;
+        }
+
         //eliminar datos
         public int Delete_Car(int Id)
         {
