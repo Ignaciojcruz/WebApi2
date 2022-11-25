@@ -27,14 +27,24 @@ namespace WebApi2.Controllers
             Track track = new Track();
             track.Id = id;
 
-            return Request.CreateResponse(HttpStatusCode.OK, track.Get_Track());
+            return Request.CreateResponse(HttpStatusCode.OK, track.Get_Track(id));
         }
 
         // POST: api/Track
         public HttpResponseMessage Post(Track track)
         {
             Track track1 = new Track();
-            int resp = track1.Set_Track(track);
+            int resp;
+
+            if(track.IsDeleted)
+            {
+                //eliminar
+                resp = track1.Delete_Track(track.Id);
+            }
+            else
+            {
+                resp = track1.Set_Track(track);
+            }
 
             return new HttpResponseMessage(HttpStatusCode.OK);
 
@@ -48,18 +58,6 @@ namespace WebApi2.Controllers
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
-
-        // DELETE: api/Track/5
-        [HttpDelete]
-        [Route("api/Track/{id}")]
-        public HttpResponseMessage Delete(int id)
-        {
-            Track track = new Track();
-            track.Id = id;
-
-            int resp = track.Delete_Track(id);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
+                
     }
 }

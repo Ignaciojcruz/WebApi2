@@ -72,6 +72,35 @@ namespace WebApi2.DAL
             return list;
         }
 
+        public Track Get_Track(int id)
+        {
+            Track track = new Track();
+            Track track2 = new Track();
+            string accion = "A2";
+            string outError = "";
+            track.Id = id;
+
+            try
+            {
+                DataSet ds = retornaDs(track, accion, ref outError);
+
+                if (outError.Length > 0) throw new Exception(outError);
+                if (ds.Tables.Count > 0)
+                {
+                    track2.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
+                    track2.Name = ds.Tables[0].Rows[0]["Name"].ToString();
+                    track2.Length = Convert.ToInt32(ds.Tables[0].Rows[0]["Length"]);
+                    track2.IsDeleted = Convert.ToBoolean(ds.Tables[0].Rows[0]["isDeleted"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                outError = ex.Message;
+            }
+
+            return track2;
+        }
+
         //eliminar datos
         public int Delete_Track(int id)
         {

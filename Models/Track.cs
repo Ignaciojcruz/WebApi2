@@ -20,6 +20,12 @@ namespace WebApi2.Models
             return trackDAL.Get_Track(this);
         }
 
+        public Track Get_Track(int id)
+        {
+            TrackDAL trackDAL = new TrackDAL();
+            return trackDAL.Get_Track(id);
+        }
+
         public int Set_Track(Track track)
         {
             TrackDAL trackDAL = new TrackDAL();

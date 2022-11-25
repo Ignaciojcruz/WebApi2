@@ -20,6 +20,12 @@ namespace WebApi2.Models
             return trackTimeDAL.Get_TrackTime(this);
         }
 
+        public TrackTime Get_TrackTime(int id)
+        {
+            TrackTimeDAL trackTimeDAL = new TrackTimeDAL();
+            return trackTimeDAL.Get_TrackTime(id);
+        }
+
         public int Set_TrackTime(TrackTime trackTime)
         {
             TrackTimeDAL trackTimeDAL = new TrackTimeDAL();

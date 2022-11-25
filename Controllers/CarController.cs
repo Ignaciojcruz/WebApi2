@@ -36,7 +36,7 @@ namespace WebApi2.Controllers
         public HttpResponseMessage Post(Car car)
         {
             Car car1 = new Car();
-            int resp = 0;
+            int resp;
 
             if(car.IsDeleted == true)
             {

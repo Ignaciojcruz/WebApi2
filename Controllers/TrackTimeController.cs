@@ -28,14 +28,25 @@ namespace WebApi2.Controllers
             TrackTime trackTime = new TrackTime();
             trackTime.Id = id;
 
-            return Request.CreateResponse(HttpStatusCode.OK, trackTime.Get_TrackTime());
+            return Request.CreateResponse(HttpStatusCode.OK, trackTime.Get_TrackTime(id));
         }
 
         // POST: api/TrackTime
         public HttpResponseMessage Post(TrackTime trackTime)
         {
             TrackTime trackTime1 = new TrackTime();
-            int resp = trackTime1.Set_TrackTime(trackTime);
+            int resp;
+
+            if(trackTime.IsDeleted)
+            {
+                //eliminar
+                resp = trackTime1.Delete_TrackTime(trackTime.Id);
+            }
+            else
+            {
+                //insertar-actualizar
+                resp = trackTime1.Set_TrackTime(trackTime);
+            }
 
             return new HttpResponseMessage(HttpStatusCode.OK);
 
@@ -50,17 +61,6 @@ namespace WebApi2.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // DELETE: api/TrackTime/5
-        [HttpDelete]
-        [Route("api/TrackTime/{id}")]
-        public HttpResponseMessage Delete(int id)
-        {
-            TrackTime trackTime = new TrackTime();
-            trackTime.Id = id;
-
-            int resp = trackTime.Delete_TrackTime(id);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
+       
     }
 }

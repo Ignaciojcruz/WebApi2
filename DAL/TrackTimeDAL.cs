@@ -60,6 +60,7 @@ namespace WebApi2.DAL
                         trackTime2.IdTrack = Convert.ToInt32(row["IdTrack"]);
                         trackTime2.IdCar = Convert.ToInt32(row["IdCar"]);
                         trackTime2.BestTimeLap = TimeSpan.Parse(row["BestTimeLap"].ToString());
+                        trackTime2.IsDeleted = Convert.ToBoolean(row["IsDeleted"]);
                         list.Add(trackTime2);
                     }
                 }
@@ -70,6 +71,37 @@ namespace WebApi2.DAL
             }
 
             return list;
+        }
+
+        public TrackTime Get_TrackTime(int id)
+        {
+            TrackTime trackTime = new TrackTime();
+            TrackTime trackTime2 = new TrackTime();
+            string accion = "A2";
+            string outError = "";
+            trackTime.Id = id;
+
+            try
+            {
+                DataSet ds = retornaDs(trackTime, accion, ref outError);
+
+                if (outError.Length > 0) throw new Exception(outError);
+                if (ds.Tables.Count > 0)
+                {                                            
+                    trackTime2.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
+                    trackTime2.IdTrack = Convert.ToInt32(ds.Tables[0].Rows[0]["IdTrack"]);
+                    trackTime2.IdCar = Convert.ToInt32(ds.Tables[0].Rows[0]["IdCar"]);
+                    trackTime2.BestTimeLap = TimeSpan.Parse(ds.Tables[0].Rows[0]["BestTimeLap"].ToString());
+                    trackTime2.IsDeleted = Convert.ToBoolean(ds.Tables[0].Rows[0]["IsDeleted"]);
+                     
+                }
+            }
+            catch (Exception ex)
+            {
+                outError = ex.Message;
+            }
+
+            return trackTime2;
         }
 
         //eliminar datos
