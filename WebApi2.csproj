@@ -288,20 +288,32 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\CarController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\TrackTimeController.cs" />
+    <Compile Include="Controllers\TypeController.cs" />
+    <Compile Include="DAL\BrandDAL.cs" />
     <Compile Include="DAL\CarDAL.cs" />
     <Compile Include="DAL\ConectaDAL.cs" />
+    <Compile Include="DAL\CountryDAL.cs" />
+    <Compile Include="DAL\ModelDAL.cs" />
     <Compile Include="DAL\TrackDAL.cs" />
     <Compile Include="DAL\TrackTimeDAL.cs" />
+    <Compile Include="DAL\TypeDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\TrackTime.cs" />
+    <Compile Include="Models\Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +369,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Brand\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

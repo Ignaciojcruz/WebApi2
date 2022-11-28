@@ -9,10 +9,10 @@ namespace WebApi2.Models
     public class Car
     {
         public int Id { get; set; }                
-        public string Brand { get; set; }
-        public string Model { get; set; }
+        public int IdBrand { get; set; }
+        public int IdModel { get; set; }
         public int Year { get; set; }
-        public string Type { get; set; }
+        public int IdType { get; set; }
         public bool IsDeleted { get; set; }
 
         public List<Car> Get_Car()

@@ -1,5 +1,4 @@
-﻿
-using WebApi2.Models;
+﻿using WebApi2.Models;
 using System.Configuration;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -10,14 +9,14 @@ using System.Collections.Generic;
 
 namespace WebApi2.DAL
 {
-    public class CarDAL
+    public class TypeDAL
     {
         //conectar a BBDD
         string connString = ConfigurationManager.AppSettings["ConexionBD"];
-        string Sp = "Sp_Car";
+        string Sp = "Sp_Type";
 
         //Inserta y actualiza
-        public int Set_Car(Car car)
+        public int Set_Type(WebApi2.Models.Type type)
         {
             int resp = 0;
             string accion = "A1";
@@ -25,51 +24,48 @@ namespace WebApi2.DAL
 
             try
             {
-                DataSet ds = retornaDs(car, accion, ref outError);
+                DataSet ds = retornaDs(type, accion, ref outError);
 
-                if(outError.Length > 0) throw new Exception(outError);
+                if (outError.Length > 0) throw new Exception(outError);
                 if (ds.Tables[0].Rows.Count > 0) resp = Convert.ToInt32(ds.Tables[0].Rows[0]["resultado"]);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 outError = ex.Message;
                 resp = -1;
-            }         
-                                                                    
+            }
+
             return resp;
         }
-                
+
         //retornar datos
-        public List<Car> Get_Car(Car car)
+        public List<WebApi2.Models.Type> Get_Type(WebApi2.Models.Type type)
         {
-            List<Car> list = new List<Car>();
+            List<WebApi2.Models.Type> list = new List<WebApi2.Models.Type>();
             string accion = "A2";
             string outError = "";
 
             try
             {
-                DataSet ds = retornaDs(car, accion, ref outError);
+                DataSet ds = retornaDs(type, accion, ref outError);
 
                 if (outError.Length > 0) throw new Exception(outError);
                 if (ds.Tables.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        Car car2 = new Car();
-                        car2.Id = Convert.ToInt32(row["Id"]);
-                        car2.IdBrand = Convert.ToInt32(row["IdBrand"].ToString());
-                        car2.IdModel = Convert.ToInt32(row["IdModel"].ToString());
-                        car2.Year = Convert.ToInt32(row["Year"]);
-                        car2.IdType = Convert.ToInt32(row["IdType"].ToString());
-                        car2.IsDeleted = Convert.ToBoolean(row["isDeleted"]);
-                        list.Add(car2);
+                        WebApi2.Models.Type type2 = new WebApi2.Models.Type();
+                        type2.Id = Convert.ToInt32(row["Id"]);
+                        type2.Name = row["Name"].ToString();
+                        type2.IsDeleted = Convert.ToBoolean(row["isDeleted"]);
+                        list.Add(type2);
                     }
                 }
             }
             catch (Exception ex)
             {
                 outError = ex.Message;
-                
+
             }
 
 
@@ -77,28 +73,25 @@ namespace WebApi2.DAL
             return list;
         }
 
-        public Car Get_Car(int id)
+        public WebApi2.Models.Type Get_Type(int id)
         {
-            Car car = new Car();
-            Car car2 = new Car();
-            car.Id = id;
+            WebApi2.Models.Type type = new WebApi2.Models.Type();
+            WebApi2.Models.Type type2 = new WebApi2.Models.Type();
+            type.Id = id;
             string accion = "A2";
             string outError = "";
 
             try
             {
-                DataSet ds = retornaDs(car, accion, ref outError);
+                DataSet ds = retornaDs(type, accion, ref outError);
 
                 if (outError.Length > 0) throw new Exception(outError);
                 if (ds.Tables.Count > 0)
-                {                    
-                    
-                    car2.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
-                    car2.IdBrand = Convert.ToInt32(ds.Tables[0].Rows[0]["Brand"]);
-                    car2.IdModel = Convert.ToInt32(ds.Tables[0].Rows[0]["Model"]);
-                    car2.Year = Convert.ToInt32(ds.Tables[0].Rows[0]["Year"]);
-                    car2.IdType = Convert.ToInt32(ds.Tables[0].Rows[0]["Type"]);
-                    car2.IsDeleted = Convert.ToBoolean(ds.Tables[0].Rows[0]["isDeleted"]);                                            
+                {
+
+                    type2.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
+                    type2.Name = ds.Tables[0].Rows[0]["Name"].ToString();
+                    type2.IsDeleted = Convert.ToBoolean(ds.Tables[0].Rows[0]["isDeleted"]);
                 }
             }
             catch (Exception ex)
@@ -106,23 +99,23 @@ namespace WebApi2.DAL
                 outError = ex.Message;
             }
 
-            return car2;
+            return type2;
         }
 
         //eliminar datos
-        public int Delete_Car(int Id)
+        public int Delete_Type(int Id)
         {
             int resp = 0;
 
             string accion = "A3";
             string outError = "";
 
-            Car car = new Car();
-            car.Id = Id;
+            WebApi2.Models.Type type = new WebApi2.Models.Type();
+            type.Id = Id;
 
             try
             {
-                DataSet ds = retornaDs(car, accion, ref outError);
+                DataSet ds = retornaDs(type, accion, ref outError);
 
                 if (outError.Length > 0) throw new Exception(outError);
                 if (ds.Tables[0].Rows.Count > 0) resp = Convert.ToInt32(ds.Tables[0].Rows[0]["resultado"]);
@@ -136,7 +129,7 @@ namespace WebApi2.DAL
             return resp;
         }
 
-        private DataSet retornaDs(Car car, string accion, ref string outError)
+        private DataSet retornaDs(WebApi2.Models.Type type, string accion, ref string outError)
         {
             DataSet ds = new DataSet();
             try
@@ -149,11 +142,9 @@ namespace WebApi2.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add("@Accion", SqlDbType.VarChar).Value = accion;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = car.Id;
-                cmd.Parameters.Add("@IdBrand", SqlDbType.Int).Value = car.IdBrand;
-                cmd.Parameters.Add("@IdModel", SqlDbType.Int).Value = car.IdModel;
-                cmd.Parameters.Add("@Year", SqlDbType.Int).Value = car.Year;
-                cmd.Parameters.Add("@IdType", SqlDbType.Int).Value = car.IdType;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = type.Id;
+                cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = type.Name;
+                cmd.Parameters.Add("@IsDeleted", SqlDbType.Bit).Value = type.IsDeleted;
 
                 ds = conecta.GetDataSet(connection, cmd, ref outError);
             }
@@ -164,7 +155,5 @@ namespace WebApi2.DAL
 
             return ds;
         }
-
-
     }
 }
